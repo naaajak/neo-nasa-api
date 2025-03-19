@@ -13,8 +13,8 @@ producer = KafkaProducer(
 def fetch_neo_data():
     url = "https://api.nasa.gov/neo/rest/v1/feed"
     params = {
-        "start_date": "2025-02-23",  # Użyj aktualnej daty
-        "end_date": "2025-02-23",    # Użyj aktualnej daty
+        "start_date": "2025-02-24",  # Użyj aktualnej daty
+        "end_date": "2025-02-24",    # Użyj aktualnej daty
         "api_key": "aFfJVjEt15uRZAulFaJSPgXWPYH1gGDiGie1Jbf3"         # Zastąp swoim kluczem API
     }
     response = requests.get(url, params=params)

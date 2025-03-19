@@ -2,6 +2,8 @@ version: '3'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    networks:
+      - spark-kafka-network
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
 
@@ -9,6 +11,8 @@ services:
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
+    networks:
+      - spark-kafka-network
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
@@ -21,15 +25,27 @@ services:
 
   spark:
     build: .  # Użyj Dockerfile do zbudowania obrazu
+    networks:
+      - spark-kafka-network
     ports:
       - "4040:4040"
     volumes:
       - ./spark-apps:/app
+    environment:
+      - SPARK_MODE=master
 
   jupyter:
     image: jupyter/pyspark-notebook:latest
+    networks:
+      - spark-kafka-network
     ports:
       - "8888:8888"
       - "8889:8889"
     volumes:
       - ./notebooks:/home/jovyan/work
+    environment:
+      - SPARK_MASTER=spark://spark:7077
+
+networks:
+  spark-kafka-network:
+    driver: bridge
