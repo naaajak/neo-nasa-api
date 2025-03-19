@@ -1,0 +1,17 @@
+pandas
+numpy
+matplotlib
+seaborn
+plotly
+kafka-python
+findspark
+ujson
+pytest
+ipdb
+pytz
+geopandas
+shapely
+streamz
+scipy
+scikit-learn
+pyspark
