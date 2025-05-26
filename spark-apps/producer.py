@@ -20,9 +20,9 @@ def fetch_neo_data():
     
     url = "https://api.nasa.gov/neo/rest/v1/feed"
     params = {
-        "start_date": today.strftime("%Y-%m-%d"),  # Formatowanie daty jako YYYY-MM-DD
+        "start_date": today.strftime("%Y-%m-%d"),  
         "end_date": end_date.strftime("%Y-%m-%d"),
-        "api_key": "aFfJVjEt15uRZAulFaJSPgXWPYH1gGDiGie1Jbf3"  # Zastąp swoim kluczem API
+        "api_key": "aFfJVjEt15uRZAulFaJSPgXWPYH1gGDiGie1Jbf3"  
     }
     response = requests.get(url, params=params)
     if response.status_code == 200:
@@ -38,4 +38,4 @@ while True:
             for neo in neo_list:
                 producer.send('neo-topic', neo)
                 print(f"Wysłano dane: {neo['name']}")
-    time.sleep(60)  # Pobieraj dane co 10 minut
+    time.sleep(60)  

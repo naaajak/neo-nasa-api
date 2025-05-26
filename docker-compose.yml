@@ -24,7 +24,7 @@ services:
       - "9092:9092"
 
   spark:
-    build: .  # Użyj Dockerfile do zbudowania obrazu
+    build: .  
     networks:
       - spark-kafka-network
     ports:
@@ -33,13 +33,6 @@ services:
       - ./spark-apps:/app
     environment:
       - SPARK_MODE=master
-    command: >
-      bash -c "
-      sleep 10 &&  # Dodane opóźnienie dla Kafki
-      /opt/bitnami/spark/bin/spark-submit
-      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.4
-      /app/spark_streaming.py
-      "
 
   jupyter:
     image: jupyter/pyspark-notebook:latest
@@ -52,20 +45,6 @@ services:
       - ./notebooks:/home/jovyan/work
     environment:
       - SPARK_MASTER=spark://spark:7077
-
-  producer:  # POPRAWIONE WCIĘCIE - teraz to osobna usługa
-    image: python:3.9
-    networks:
-      - spark-kafka-network
-    volumes:
-      - ./producer.py:/app/producer.py
-    depends_on:
-      - kafka
-    command: >
-      bash -c "
-      sleep 15 &&  # Czekaj na Sparka i Kafkę
-      python /app/producer.py
-      "
 
 networks:
   spark-kafka-network:
